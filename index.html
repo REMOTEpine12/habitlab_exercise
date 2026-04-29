@@ -10,30 +10,30 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"> </script> 
 
 </head>
-<body>
-    <h1> Habit Lab</h1>
+<body class=" bg-slate-100 p-6">
+    <h1 class="text-2xl font-bold mb-4"> Habit Lab</h1>
 
-    <form >
-        <input id="name" placeholder="Nombre del hábito">
+    <form id="form" class="mb-4 space-y-2">
+        <input id="name" placeholder="Nombre del hábito" class="border p-2 w-full">
 
-        <select  id="energy">
+        <select  id="energy" class="border p-2 w-full">
             <option >Alta</option>
             <option >Media</option>
             <option >Baja</option>
         </select>
 
-        <button >Agregar hábito</button>
+        <button class="bg-black text-white px-4 py-2">Agregar hábito</button>
     </form>
 
     <!-- filtros -->
-    <section>
-        <button>Todos</button>
-        <button>Pendientes</button>
-        <button>Completados</button>
+    <section class="mb-4 space-x-2">
+        <button id="all" class="border px-2">Todos</button>
+        <button id="pending" class="border px-2">Pendientes</button>
+        <button id="completed" class="border px-2">Completados</button>
     </section>
 
     <!-- lista de hábitos -->
-
+    <section id="list"> </section>
 
     <script src="./js/app.js"></script>
 </body>
