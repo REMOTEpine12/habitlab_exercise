@@ -10,31 +10,115 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"> </script> 
 
 </head>
-<body class=" bg-slate-100 p-6">
-    <h1 class="text-2xl font-bold mb-4"> Habit Lab</h1>
+<body class=" min-h-screen bg-slate-100 text-slate-800">
 
-    <form id="form" class="mb-4 space-y-2">
-        <input id="name" placeholder="Nombre del hábito" class="border p-2 w-full">
+    <main class="mx-auto max-w-3xl px-4 py-8">
+        <!-- Encabenzado: se agrega descripcion para que el usuario entienda el propsito del desarrollo-->
+        <header class="mb-8 text-center">
+            <h1 class="text-2xl font-bold">Habit Lab</h1>
+            <p class="mt-2  text-slate-600">
+                Registro, organiza y de seguimiento a tus hábitos diarias
+            </p>
 
-        <select  id="energy" class="border p-2 w-full">
-            <option >Alta</option>
-            <option >Media</option>
-            <option >Baja</option>
-        </select>
+        </header>
 
-        <button class="bg-black text-white px-4 py-2">Agregar hábito</button>
-    </form>
+        <!-- Contenedor principal con un diseño de tarjeta para que se centre la vista del usuario en el uso de la app-->
+         <section class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <form id="form" class="mb-4 space-y-2">
 
-    <!-- filtros -->
-    <section class="mb-4 space-x-2">
-        <button id="all" class="border px-2">Todos</button>
-        <button id="pending" class="border px-2">Pendientes</button>
-        <button id="completed" class="border px-2">Completados</button>
-    </section>
+                <section>
+                    <label for="habitName" class="mb-l block text-sm font-medium text-slate-700">
+                        Nombre del hábito
+                    </label>
+                    <input 
+                    id="habitName"
+                    type="text"
+                    placeholder="Ejemplo: leer 20 minutos"
+                    autocomplete="off"
+                    class="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-600">
+
+                </section>
+                
+                <section>
+                    <label for="habitEnergy" class="mb-l block text-sm font-medium text-slate-700">
+                        Nivel de energía requerido
+                    </label>
+                    <select  
+                    id="habitEnergy" 
+                    class="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-600">
+                        <option value="Alta" >Alta</option>
+                        <option value="Media" >Media</option>
+                        <option value="Baja" >Baja</option>
+                    </select>
+                </section>
+
+
+                
+
+                <button 
+                type="submit"
+                class="w-full rounded-xl bg-slate-900 px-4 py-3 font-medium text-white transition hover:bg-slate-700">
+                    Agregar hábito
+                </button>
+                
+                <!-- mensaje de error controlado por javascript (app.js)-->
+                <p id="formMessage" class="hidden rounded-xl bg-red-50 px-4 py-3 texto-sm text-red-700">Error</p>
+            </form>
+         </section>
+
+         <!-- Tablero: pequeño tablero para mostrar los hábitos tiene, cuantos completos y cuantos pendientes-->
+          <section class="mt-6 grid gap-3 sm:grid-cols-3 ">
+            <article class="rounded-2xl bg-white p-4 text-center shadow-sm ring-1 ring-slate-200">
+                <p class="text-sm text-slate-500">Total</p>
+                <p id="totalCount" class="mt-1 text-2xl font-bold">0</p>
+            </article>
+            <article class="rounded-2xl bg-white p-4 text-center shadow-sm ring-1 ring-slate-200">
+                <p class="text-sm text-slate-500">Pendientes</p>
+                <p id="totalCount" class="mt-1 text-2xl font-bold">0</p>
+            </article>
+            <article class="rounded-2xl bg-white p-4 text-center shadow-sm ring-1 ring-slate-200">
+                <p class="text-sm text-slate-500">Completados</p>
+                <p id="totalCount" class="mt-1 text-2xl font-bold">0</p>
+            </article>
+          </section>
+
+          <!-- Filtros-->
+           <section class="mt-6">
+                <section class="flex flex-wrap gap-2 justify-center">
+                    <button 
+                    type="button"
+                    data-filter="all"
+                     
+                    class="filter-btn rounded-full border bg-slate-400 border-slate-300 px-4 py-2  text-sm font-medium transition hover:bg-slate-300"
+                    >Todos
+                </button>
+                    <button 
+                    type="button"
+                    data-filter="pending"
+                    class="filter-btn rounded-full border bg-slate-400 border-slate-300 px-4 py-2  text-sm font-medium transition hover:bg-slate-300"
+                    >Pendientes
+                </button>
+                    <button 
+                    type="button"
+                    data-filter="completed"
+                    class="filter-btn rounded-full border bg-slate-400 border-slate-300 px-4 py-2  text-sm font-medium transition hover:bg-slate-300"
+                    >Completados
+                </button>
+                </section>
+           </section>
+    </main>
+  
+
+    
+
 
     <!-- lista de hábitos -->
-    <section id="list"> </section>
+    <section class="mt-6 ">
+        <section id="habitList" class="space-y-3">
 
-    <script src="./js/app.js"></script>
+        </section>
+    </section>
+
+    <script type="module" src="./js/app.js"></script>
 </body>
 </html>
