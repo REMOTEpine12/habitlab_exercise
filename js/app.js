@@ -62,21 +62,24 @@ function toggleHabit(id){
     render();
 }
 
-function render(){
-    const data = getFiletered();
+function render() {
+    const data = getFiltered();
 
     list.innerHTML = data.map(habit => {
         return `
-        <div class="flex items-center justify-between bg-gray-100 p-4 rounded mb-2">
-            <span> ${habit.name} -  energy: ${habit.energy}  - ${habit.done ? 'Done' : 'Pending'}</span>
-        <div> 
-            <button onclick="toggle(${habit.id})" > BIEN</button>
-            <button onclick="remove(${habit.id})" > MAL </button>
-        
-            </div>
+            <div class="border p-2 mb-2 flex justify-between">
+                <span>
+                ${habit.name} - energia: ${habit.energy}  - ${habit.done ? "✅" : "❌"}
+                </span>
 
+                <div>
+                    <button onclick="toggle(${habit.id})" class="bg-green-500 text-white px-2 py-1">✅</button>
+                    <button onclick="remove(${habit.id})" class="bg-red-500 text-white px-2 py-1">❌</button>
+                </div>
+            </div>
         `;
-    }).join("");}
+    }).join("");
+}
 
 
 
@@ -100,9 +103,19 @@ function getFiletered(){
 //Eventos
 
 //evento para agregar habito
-form.addEventListener("submit", (e) => {
-    e.preventDefault(); //evitamos que se recargue la pagina
-    addhabit(input.value, energy.value); //agregamos el habito al arreglo de habitos
+btnAll.addEventListener("click", () => {
+    filter = "all"; // cambiamos el filtro a "all"
+    render(); // renderizamos la lista de hábitos
+});
+
+btnPending.addEventListener("click", () => {
+    filter = "pending"; // cambiamos el filtro a "pending"
+    render(); // renderizamos la lista de hábitos
+});
+
+btnDone.addEventListener("click", () => {
+    filter = "done"; // cambiamos el filtro a "done"
+    render(); // renderizamos la lista de hábitos
 });
 
 
