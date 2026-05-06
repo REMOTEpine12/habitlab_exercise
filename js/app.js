@@ -163,4 +163,58 @@ function handleHabitAction(event) {
     }
 }
 
+function addHabit(name, energy) {
+    const newHabit = {
+        //Habits dentro de el objeto state
+        id: Date.now(), // generamos un id único para el hábito usando la fecha actual en milisegundos
+        name,
+        energy,
+        done: false, // por defecto, el hábito se crea como no completado (done: false)
+        createdAt: new Date().toISOString() // guardamos la fecha de creación del hábito en formato ISO
+    };
+    state.habits.push(newHabit); // agregamos el nuevo hábito al arreglo de hábitos en el estado
+    saveHabits(); // guardamos los hábitos actualizados en el local storage
+    render(); // renderizamos los hábitos actualizados en el DOM
+    }
+
+function render() {
+    renderSumary(); // renderizamos el resumen de hábitos (total, pendientes, completados)
+    renderFilterButtons(); // renderizamos los botones de filtro para mostrar el estado actual del filtro
+    renderHabitsList(); // renderizamos la lista de hábitos filtrados en el DOM
+
+}
+
+//renderiza el resumen de hábitos (total, pendientes, completados)
+function renderSumary() {
+    const total = state.habits.length;
+    const pending = state.habits.filter(habit => !habit.done).length; // contamos los hábitos que no están completados
+    const completed = state.habits.filter(habit => habit.done).length; // contamos los hábitos que están completados
+
+    elements.totalCount.textContent = total; // actualizamos el conteo total en el DOM
+    elements.pendingCount.textContent = pending; // actualizamos el conteo de pendientes en el DOM
+    elements.completedCount.textContent = completed; // actualizamos el conteo de completados en el DOM
+}
+
+//renderiza los botones de filtro para mostrar el estado actual del filtro
+function renderFilterButtons() {
+    elements.filterButtons.forEach(button => {
+        const isActive = button.dataset.filter === state.currentFilter; // verificamos si el botón corresponde al filtro actual
+        button.classList.toggle("bg-green-900", isActive); // agregamos o removemos la clase "active" según corresponda para mostrar el estado del filtro
+        button.classList.toggle("text-white", isActive); // agregamos o removemos la clase "active" según corresponda para mostrar el estado del filtro
+        button.classList.toggle("border-slate-900", !isActive); // agregamos o removemos la clase "active" según corresponda para mostrar el estado del filtro
+    }); 
+}
+
+//renderiza la lista de hábitos filtrados en el DOM
+function renderHabitsList() {
+    const habit = getFilteredHabits(); // obtenemos los hábitos filtrados según el estado del filtro actual
+
+    if (habits.length === 0) {
+        elements.habitsList.innerHTML = getEmptyState(); // si no hay hábitos, mostramos un estado vacío en el DOM
+        return;
+    }
+    elements.habitsList.innerHTML = habits.map(habit => getHabitHTML(habit)).join(""); // si hay hábitos, los renderizamos en el DOM usando la función getHabitHTML para generar el HTML de cada hábito y luego unimos todo en una sola cadena para mostrarlo en el DOM
+}
+
+
 
