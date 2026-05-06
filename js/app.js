@@ -1,11 +1,11 @@
 //Variables globales
 const APP_NAME = "Habit Lab";  //es const 
-const STORAGE =  "habits"; // se centraliza en una constante para evitar errores al escribir texto varias veces
+const STORAGE =  "habits-lab:habits"; // se centraliza en una constante para evitar errores al escribir texto varias veces
 
 //Estado principal de la aplicación
 //se mantiene en un solo objeto para que sea más facil saber que datos  estas disponibles en la aplicación
 const state = {
-    habits: loadhabits(), //cargamos los habitos del local storage al iniciar la aplicación en la función loadhabits()
+    habits: loadHabits(), //cargamos los habitos del local storage al iniciar la aplicación en la función loadhabits()
     currentFilter: "all" // Filtro actual para mostrar los habitos, por defecto es "all" (todos los habitos), pero puede ser "pending" (habitos pendientes) o "completed" (habitos completados)
 
 };
@@ -13,7 +13,7 @@ const state = {
 // se agrupan las referencias todos los elementos en un objeto llamado elements 
 
 const elements = {
-    form: document.querySelector("habitForm"),
+    form: document.querySelector("#habitForm"),
     habitName: document.querySelector("#habitName"),
     habitEnergy: document.querySelector("#habitEnergy"),
     formMessage: document.querySelector("#formMessage"),
@@ -49,7 +49,7 @@ function bindEvents() {
 
 
 //Datos (arreglo de obejtos o el luegr donde se guardaran los habitos
-let habits = load();
+let habits = loadHabits();
 
 
 //funciones
@@ -58,7 +58,7 @@ let habits = load();
 
 
 //carga los datos del local storage
-function load(){
+function loadHabits(){
    try {
      const storeHabits = localStorage.getItem(STORAGE); // obtenemos los datos del local storage
      if (!storeHabits) {
@@ -92,9 +92,39 @@ function handleFormSubmit(event) {
         return;
     }
 
+    //Crear  un nuevo hábito 
+    addHabit(habitName, habitEnergy);
+
+    //Limitar el formulario después de agregar el hábito
+    elements.form.reset(); // reseteamos el formulario para limpiar los campos después de agregar un hábito
+    elements.habitName.focus(); // ponemos el foco en el campo de nombre para facilitar la entrada de datos
+    hideMessage(); // ocultamos cualquier mensaje de error que pueda haber quedado después de agregar un hábito
+
 }
 
-//Crear  un nuevo hábito 
-addHabit(habitsName, habitEnergy);
+//cambia el estado de un hábito
+//nos devolvera (retornara) el objeto hábiro cuando se cambie su estado paa poder mostrarse
+function toggleHabit(id) { //toogle en español seria: cabirarEstadoHabito
+    state.habits = state.habits.map((habit) => {
+        if (habit.id === id) {
+            return   habit;       
+        }
+        return {
+            ...habit,//se devuelve el habito pero con el estado actualizado
+            done: !habit.done  // cambiamos el estado de "done"  a su valor contrario (si es true, lo cambia a false, y si es false, lo cambia a true
+            
+        };
+    });
+    saveHabits(); // guardamos los habitos actualizados en el local storage
+    render(); // renderizamos los habitos actualizados en el DOM
 
-//Limitar el formulario después de agregar el hábito
+}
+
+//Elimina un habito de la lista
+function deleteHabit(id) {
+    state.habits = state.habits.filter((habit)=> habit.id !== id); // filtramos los habitos para eliminar el habito con el id especificado
+    //proporcionando y devolvemos un nuevo array sin ese hábito
+    saveHabits();
+    render();
+}
+
