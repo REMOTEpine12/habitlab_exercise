@@ -199,7 +199,7 @@ function renderSumary() {
 function renderFilterButtons() {
     elements.filterButtons.forEach(button => {
         const isActive = button.dataset.filter === state.currentFilter; // verificamos si el botón corresponde al filtro actual
-        button.classList.toggle("bg-green-900", isActive); // agregamos o removemos la clase "active" según corresponda para mostrar el estado del filtro
+        button.classList.toggle("bg-blue-900", isActive); // agregamos o removemos la clase "active" según corresponda para mostrar el estado del filtro
         button.classList.toggle("text-white", isActive); // agregamos o removemos la clase "active" según corresponda para mostrar el estado del filtro
         button.classList.toggle("border-slate-900", !isActive); // agregamos o removemos la clase "active" según corresponda para mostrar el estado del filtro
     }); 
@@ -213,8 +213,30 @@ function renderHabitsList() {
         elements.habitsList.innerHTML = getEmptyState(); // si no hay hábitos, mostramos un estado vacío en el DOM
         return;
     }
-    elements.habitsList.innerHTML = habits.map(habit => getHabitHTML(habit)).join(""); // si hay hábitos, los renderizamos en el DOM usando la función getHabitHTML para generar el HTML de cada hábito y luego unimos todo en una sola cadena para mostrarlo en el DOM
+    elements.habitsList.innerHTML = habits.map(habit => getHabitTemplate()).join(""); // si hay hábitos, los renderizamos en el DOM usando la función getHabitHTML para generar el HTML de cada hábito y luego unimos todo en una sola cadena para mostrarlo en el DOM
 }
 
+//Devuelve el template HTML para un hábito dado su estado
+function getHabitTemplate(habit) {
+    const statusText = habit.done ? "Completado" : "Pendiente"; // determinamos el texto de estado según si el hábito está completado o no
+    const statusClass = habit.done ? "bg-green-500 text-green-800" : "bg-yellow-500 text-yellow-800"; // determinamos la clase de estilo según si el hábito está completado o no
+   
+    const toggleText = habit.done ? "Marcar como pendiente" : "Marcar como completado"; // determinamos el texto del botón de toggle según si el hábito está completado o no
+    return `
+        <article class="rounded-2xl bg-white p-4 shadow-md ring-1 ring-slate-200">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <h2> 
+                            ${escapeHTML(habit.name)}
+                        </h2>
 
+                        <span>
 
+                    </div>
+                </div>
+            </div>
+        </article>
+    `;
+
+}
